@@ -18,7 +18,7 @@ class CreateSetsTable extends Migration
             $table->foreignId('exercise_id');
             $table->foreignId('user_id');
             $table->integer('reps');
-            $table->float('weight', 2, 1);
+            $table->float('weight', 8, 2);
             $table->timestamps();
         });
     }
