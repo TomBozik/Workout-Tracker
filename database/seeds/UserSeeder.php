@@ -16,8 +16,8 @@ class UserSeeder extends Seeder
         User::truncate();
 
         User::create([
-            'username' => 'tombozik',
-            'email' => 'tombozik@gmail.com',
+            'username' => 'test',
+            'email' => 'test@test.com',
             'password' => Hash::make('password'),
         ]);
     }
