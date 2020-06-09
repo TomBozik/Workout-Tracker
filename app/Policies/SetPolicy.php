@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Routine;
+use App\Set;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RoutinePolicy
+class SetPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class RoutinePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Set  $set
      * @return mixed
      */
-    public function view(User $user, Routine $routine)
+    public function view(User $user, Set $set)
     {
         //
     }
@@ -48,34 +48,34 @@ class RoutinePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Set  $set
      * @return mixed
      */
-    public function update(User $user, Routine $routine)
+    public function update(User $user, Set $set)
     {
-        return $user->id == $routine->user_id;
+        return $user->id == $set->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Set  $set
      * @return mixed
      */
-    public function delete(User $user, Routine $routine)
+    public function delete(User $user, Set $set)
     {
-        return $user->id == $routine->user_id;
+        return $user->id == $set->user_id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Set  $set
      * @return mixed
      */
-    public function restore(User $user, Routine $routine)
+    public function restore(User $user, Set $set)
     {
         //
     }
@@ -84,10 +84,10 @@ class RoutinePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Set  $set
      * @return mixed
      */
-    public function forceDelete(User $user, Routine $routine)
+    public function forceDelete(User $user, Set $set)
     {
         //
     }

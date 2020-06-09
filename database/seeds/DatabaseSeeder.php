@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ExerciseSeeder::class);
-        $this->call(RoutineSeeder::class);
-        $this->call(SetSeeder::class);
+        // $this->call(RoutineSeeder::class);
+        // $this->call(SetSeeder::class);
     }
 }

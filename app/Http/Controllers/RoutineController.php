@@ -4,97 +4,92 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Routine;
+use App\Exercise;
 
 class RoutineController extends Controller
 {
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $authUserId = auth()->user()->id;
-        $routines = Routine::with('exercises')->where('user_id', $authUserId)->get(); // $routines = auth()->user()->routines;
+        $routines = Routine::with('exercises')->where('user_id', $authUserId)->get();
+        
         return view('routines.index', compact('routines'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $exercises = Exercise::with('category')->get()
+            ->sortBy(function($exercise){return $exercise->category->name;})
+            ->groupBy(function($exercise){return $exercise->category->name;});
+
+        return view('routines.create', compact('exercises'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'name' => 'required',
+            'exercises' => 'required',
+        ]);
+
+        $routine = auth()->user()->routines()->create([
+            'name' => $data['name'],
+        ]);
+
+        $routine->exercises()->sync($data['exercises']);
+        
+        return redirect()->route('routines.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
+    {
+        $routine = Routine::with('exercises')->find($id);
+        $this->authorize('update', $routine);
+
+        $exercises = Exercise::with('category')->get()
+            ->sortBy(function($exercise){return $exercise->category->name;})
+            ->groupBy(function($exercise){return $exercise->category->name;});
+
+        return view('routines.edit', compact('routine', 'exercises'));
+    }
+
+
+    public function update(Request $request, $id)
     {
         $routine = Routine::find($id);
         $this->authorize('update', $routine);
-        return view('routines.edit', compact('routine'));
+
+        $data = request()->validate([
+            'name' => 'required',
+            'exercises' => 'required'
+        ]);
+
+        $routine->update([
+            'name' => $data['name'],
+        ]);
+
+        $routine->exercises()->sync($data['exercises']);
+
+        return redirect()->route('routines.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $routine = Routine::find($id);
+        $this->authorize('delete', $routine);
+        $routine->exercises()->detach();
+        $routine->delete($id);
+
+        return redirect()->route('routines.index');
     }
 }
