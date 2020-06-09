@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">    
-    <form action="{{ route('routines.store') }}" method="post">
-        @csrf
-        <div class="row">
-            <div class="col-8 offset-2">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-sm-12 px-4">
 
+            <form action="{{ route('routines.store') }}" method="post">
+                @csrf
                 <div class="row">
                     <h3>Create Routine</h3>
                 </div>
@@ -21,21 +21,23 @@
                     </span>
                     @enderror
                 </div>
+                
 
                 @foreach($exercises as $cat => $exercises_list)
-                    {{ $cat }}: <br>
+                    <strong>{{ $cat }}: </strong><br>
                     @foreach ($exercises_list as $exercise)
-                        <input type="checkbox" name="exercises[]" value="{{ $exercise->id }}" >
-                        <label >{{ $exercise->name }}</label><br>
+                        <input type="checkbox" name="exercises[]" value="{{ $exercise->id }}">
+                        <label>{{ $exercise->name }}</label><br>
                     @endforeach
                 @endforeach
-                
+
+
                 <div class="row pt-4">
                     <button class="btn btn-primary">Create Routine</button>
                 </div>
-            </div>
-        </div>
-    </form>
+            </form>
 
+        </div>
+    </div>
 </div>
 @endsection

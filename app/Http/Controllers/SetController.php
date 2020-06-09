@@ -37,8 +37,8 @@ class SetController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'reps' => 'required',
-            'weight' => 'required',
+            'reps' => ['required', 'numeric'],
+            'weight' => ['required', 'numeric'],
             'exerciseId' => 'required'
         ]);
 
