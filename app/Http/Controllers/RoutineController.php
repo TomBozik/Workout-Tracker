@@ -17,7 +17,11 @@ class RoutineController extends Controller
     public function index()
     {
         $authUserId = auth()->user()->id;
-        $routines = Routine::with('exercises')->where('user_id', $authUserId)->get();
+        $routines = Routine::with('exercises', 'exercises.category')->where('user_id', $authUserId)->get();
+
+        foreach($routines as $routine){
+            $routine->exercises = $routine->exercises->groupBy(function($exercise){ return $exercise->category->name;});
+        }
         
         return view('routines.index', compact('routines'));
     }

@@ -10,19 +10,23 @@
             </div>
 
             <table class="table">
+
                 @foreach($exercises as $cat => $exercises_list)
-                <tr style="background-color: #F7F7F7">
-                    <th>
-                        {{ $cat }}: {{ $exercises_list->count() }} exercises
-                    </th>
-                    <th class="text-right">Action</th>
-                </tr>
-                @foreach ($exercises_list as $exercise)
-                <tr>
-                    <td>{{ $exercise->name }}</td>
-                    <td class="text-right"><a href="#">-</a></td>
-                </tr>
-                @endforeach
+                
+                    <tr style="background-color: #F7F7F7">
+                        <th>
+                            {{ $cat }}: {{ $exercises_list->count() }} exercises
+                        </th>
+                        <th class="text-right">Action</th>
+                    </tr>
+
+                    @foreach ($exercises_list as $exercise)
+                        <tr>
+                            <td>{{ $exercise->name }}</td>
+                            <td class="text-right"><a href="#">-</a></td>
+                        </tr>
+                    @endforeach
+
                 @endforeach
                 <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
             </table>
