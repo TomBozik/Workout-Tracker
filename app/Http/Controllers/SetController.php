@@ -19,7 +19,9 @@ class SetController extends Controller
         $authUserId = auth()->user()->id;
         $sets = Set::with('exercise')->where('user_id', $authUserId)->get()
             ->sortByDesc('created_at')
-            ->groupBy(function($set){return $set->created_at->format('d-m-Y');});
+            ->groupBy(function($set){
+                return $set->created_at->format('d-m-Y');
+            });
         
         return view('sets.index', compact('sets'));
     }

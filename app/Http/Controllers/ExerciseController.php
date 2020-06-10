@@ -17,8 +17,12 @@ class ExerciseController extends Controller
     public function index()
     {
         $exercises = Exercise::with('category')->get()
-            ->sortBy(function($exercise){return $exercise->category->name;})
-            ->groupBy(function($exercise){return $exercise->category->name;});
+            ->sortBy(function($exercise){
+                return $exercise->category->name;
+            })
+            ->groupBy(function($exercise){
+                return $exercise->category->name;
+            });
 
         return view('exercises.index', compact('exercises'));
     }

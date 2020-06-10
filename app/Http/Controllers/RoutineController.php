@@ -17,11 +17,13 @@ class RoutineController extends Controller
     public function index()
     {
         $authUserId = auth()->user()->id;
-        $routines = Routine::with('exercises', 'exercises.category')->where('user_id', $authUserId)->get();
 
-        foreach($routines as $routine){
-            $routine->exercises = $routine->exercises->groupBy(function($exercise){ return $exercise->category->name;});
-        }
+        $routines = Routine::with('exercises', 'exercises.category')->where('user_id', $authUserId)->get()->map(function($routine){
+            $routine->exercises = $routine->exercises->groupBy(function($exercise){ 
+                return $exercise->category->name;
+            });
+            return $routine;
+        });
         
         return view('routines.index', compact('routines'));
     }
@@ -30,8 +32,12 @@ class RoutineController extends Controller
     public function create()
     {
         $exercises = Exercise::with('category')->get()
-            ->sortBy(function($exercise){return $exercise->category->name;})
-            ->groupBy(function($exercise){return $exercise->category->name;});
+            ->sortBy(function($exercise){
+                return $exercise->category->name;
+            })
+            ->groupBy(function($exercise){
+                return $exercise->category->name;
+            });
 
         return view('routines.create', compact('exercises'));
     }
@@ -60,8 +66,12 @@ class RoutineController extends Controller
         $this->authorize('update', $routine);
 
         $exercises = Exercise::with('category')->get()
-            ->sortBy(function($exercise){return $exercise->category->name;})
-            ->groupBy(function($exercise){return $exercise->category->name;});
+            ->sortBy(function($exercise){
+                return $exercise->category->name;
+            })
+            ->groupBy(function($exercise){
+                return $exercise->category->name;
+            });
 
         return view('routines.edit', compact('routine', 'exercises'));
     }
