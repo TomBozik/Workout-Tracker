@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use App\Exercise;
 use App\Category;
 
@@ -44,11 +45,17 @@ class ExerciseController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'category' => 'required',
+            'image' => 'image',
         ]);
+
+        $imagePath = request('image')->store('exercises', 'public');
+        $image = Image::make(public_path("storage/{$imagePath}"))->fit(100, 100);
+        $image->save();
 
         $exercise = Exercise::create([
             'name' => $data['name'],
             'category_id' => $data['category'],
+            'image' => $imagePath
         ]);
 
         return redirect()->route('exercises.index');

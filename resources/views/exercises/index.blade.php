@@ -22,7 +22,7 @@
 
                     @foreach ($exercises_list as $exercise)
                         <tr>
-                            <td>{{ $exercise->name }}</td>
+                            <td> <img src="/storage/{{$exercise->image}}"> {{ $exercise->name }}</td>
                             <td class="text-right"><a href="#">-</a></td>
                         </tr>
                     @endforeach
