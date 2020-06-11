@@ -30,6 +30,8 @@ class ExerciseController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Exercise::class);
+
         $categories = Category::orderBy('name', 'asc')->get();
         return view('exercises.create', compact('categories'));
     }
@@ -37,6 +39,8 @@ class ExerciseController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Exercise::class);
+
         $data = request()->validate([
             'name' => 'required',
             'category' => 'required',

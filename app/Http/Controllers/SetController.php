@@ -29,6 +29,8 @@ class SetController extends Controller
 
     public function create($exerciseId)
     {
+        $this->authorize('create', Set::class);
+
         $exercise = Exercise::find($exerciseId);
         $previousSets = Set::where('exercise_id', $exerciseId)->orderBy('created_at', 'desc')->limit(50)->get();
         
@@ -38,6 +40,8 @@ class SetController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Set::class);
+
         $data = request()->validate([
             'reps' => ['required', 'numeric'],
             'weight' => ['required', 'numeric'],
@@ -87,6 +91,7 @@ class SetController extends Controller
     {
         $set = Set::find($id);
         $this->authorize('delete', $set);
+        
         $set->delete($id);
 
         return redirect()->route('sets.index');

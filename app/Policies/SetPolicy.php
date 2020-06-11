@@ -41,7 +41,9 @@ class SetPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('create sets')) {
+            return true;
+        }
     }
 
     /**
@@ -53,7 +55,13 @@ class SetPolicy
      */
     public function update(User $user, Set $set)
     {
-        return $user->id == $set->user_id;
+        if ($user->can('edit own sets')) {
+            return $user->id == $set->user_id;
+        }
+
+        if ($user->can('edit any sets')) {
+            return true;
+        }
     }
 
     /**
@@ -65,7 +73,13 @@ class SetPolicy
      */
     public function delete(User $user, Set $set)
     {
-        return $user->id == $set->user_id;
+        if ($user->can('delete own sets')) {
+            return $user->id == $set->user_id;
+        }
+
+        if ($user->can('delete any sets')) {
+            return true;
+        }
     }
 
     /**

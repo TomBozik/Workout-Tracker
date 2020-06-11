@@ -28,7 +28,11 @@
                     @endforeach
 
                 @endforeach
-                <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
+
+                @role('admin')
+                    <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
+                @endrole
+
             </table>
 
         </div>

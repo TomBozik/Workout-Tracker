@@ -15,10 +15,20 @@ class UserSeeder extends Seeder
     {
         User::truncate();
 
-        User::create([
-            'username' => 'test',
-            'email' => 'test@test.com',
+        $user = User::create([
+            'username' => 'tombozik',
+            'email' => 'tombozik@gmail.com',
             'password' => Hash::make('password'),
         ]);
+        $user->assignRole('user');
+
+        $admin = User::create([
+            'username' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('password'),
+        ]);
+        
+        $admin->assignRole('admin');
+
     }
 }

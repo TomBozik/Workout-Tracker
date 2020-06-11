@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Routine;
+use App\Exercise;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RoutinePolicy
+class ExercisePolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,14 @@ class RoutinePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Exercise  $exercise
      * @return mixed
      */
-    public function view(User $user, Routine $routine)
+    public function view(User $user, Exercise $exercise)
     {
-        //
+        if ($user->can('view exercises')) {
+            return true;
+        }
     }
 
     /**
@@ -41,7 +43,7 @@ class RoutinePolicy
      */
     public function create(User $user)
     {
-        if ($user->can('create routines')) {
+        if ($user->can('create exercises')) {
             return true;
         }
     }
@@ -50,16 +52,12 @@ class RoutinePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Exercise  $exercise
      * @return mixed
      */
-    public function update(User $user, Routine $routine)
+    public function update(User $user, Exercise $exercise)
     {
-        if ($user->can('edit own routines')) {
-            return $user->id == $routine->user_id;
-        }
-
-        if ($user->can('edit any routines')) {
+        if ($user->can('edit exercises')) {
             return true;
         }
     }
@@ -68,16 +66,12 @@ class RoutinePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Exercise  $exercise
      * @return mixed
      */
-    public function delete(User $user, Routine $routine)
+    public function delete(User $user, Exercise $exercise)
     {
-        if ($user->can('delete own routines')) {
-            return $user->id == $routine->user_id;
-        }
-
-        if ($user->can('delete any routines')) {
+        if ($user->can('delete exercises')) {
             return true;
         }
     }
@@ -86,10 +80,10 @@ class RoutinePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Exercise  $exercise
      * @return mixed
      */
-    public function restore(User $user, Routine $routine)
+    public function restore(User $user, Exercise $exercise)
     {
         //
     }
@@ -98,10 +92,10 @@ class RoutinePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Routine  $routine
+     * @param  \App\Exercise  $exercise
      * @return mixed
      */
-    public function forceDelete(User $user, Routine $routine)
+    public function forceDelete(User $user, Exercise $exercise)
     {
         //
     }

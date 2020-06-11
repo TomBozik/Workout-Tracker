@@ -31,6 +31,8 @@ class RoutineController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Routine::class);
+
         $exercises = Exercise::with('category')->get()
             ->sortBy(function($exercise){
                 return $exercise->category->name;
@@ -45,6 +47,8 @@ class RoutineController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Routine::class);
+
         $data = request()->validate([
             'name' => 'required',
             'exercises' => 'required',
@@ -101,6 +105,7 @@ class RoutineController extends Controller
     {
         $routine = Routine::find($id);
         $this->authorize('delete', $routine);
+
         $routine->exercises()->detach();
         $routine->delete($id);
 
