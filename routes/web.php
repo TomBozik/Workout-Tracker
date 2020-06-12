@@ -25,6 +25,8 @@ Route::get('/sets/create/{exerciseId}', 'SetController@create')->name('sets.crea
 Route::get('/exercises', 'ExerciseController@index')->name('exercises.index');
 Route::get('/exercises/create', 'ExerciseController@create')->name('exercises.create');
 Route::post('/exercises', 'ExerciseController@store')->name('exercises.store');
+Route::get('/exercises/{exercise}/edit', 'ExerciseController@edit')->name('exercises.edit');
+Route::patch('/exercises/{exercise}', 'ExerciseController@update')->name('exercises.update');
 Route::delete('/exercises/{exercise}', 'ExerciseController@destroy')->name('exercises.destroy');
 
 // Route::get('/routine', 'RoutineController@index')->name('routine.index'); //get list of routines

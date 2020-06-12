@@ -23,14 +23,18 @@
                     @foreach ($exercises_list as $exercise)
                         <tr>
                             <td> <img src="/storage/{{$exercise->image}}"> {{ $exercise->name }}</td>
-                            <td class="text-right"><a href="#">-</a></td>
+                            @role('admin')
+                                <td class="text-right"><a href="{{ route('exercises.edit', $exercise->id) }}">Edit</a></td>
+                            @else
+                                <td class="text-right">-</td>
+                            @endrole
                         </tr>
                     @endforeach
 
                 @endforeach
 
                 @role('admin')
-                    <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
+                <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
                 @endrole
 
             </table>

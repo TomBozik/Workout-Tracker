@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use App\Exercise;
 use App\Category;
 
@@ -57,6 +58,42 @@ class ExerciseController extends Controller
             'category_id' => $data['category'],
             'image' => $imagePath
         ]);
+
+        return redirect()->route('exercises.index');
+    }
+
+    public function edit($id)
+    {
+        $exercise = Exercise::find($id);
+        $this->authorize('update', $exercise);
+
+        return view('exercises.edit', compact('exercise'));
+    }
+
+
+    public function update($id)
+    {
+        $exercise = Exercise::find($id);
+        $this->authorize('update', $exercise);
+
+        $data = request()->validate([
+            'name' => 'required',
+            'image' => 'image'
+        ]);
+
+        if(request('image')){
+            Storage::disk('public')->delete($exercise->image);
+
+            $imagePath = request('image')->store('exercises', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(100, 100);
+            $image->save();
+            $imageArray = ['image' => $imagePath ];
+        }
+
+        $exercise->update(array_merge(
+            $data,
+            $imageArray ?? []
+        ));
 
         return redirect()->route('exercises.index');
     }
