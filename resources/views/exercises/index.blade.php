@@ -22,7 +22,11 @@
 
                     @foreach ($exercises_list as $exercise)
                         <tr>
-                            <td> <img src="/storage/{{$exercise->image}}"> {{ $exercise->name }}</td>
+                            @if($exercise->image_thumbnail)
+                                <td> <img src="/storage/{{$exercise->image_thumbnail}}"> {{ $exercise->name }}</td>
+                            @else
+                                <td>{{ $exercise->name }} </td>
+                            @endif
                             @role('admin')
                                 <td class="text-right"><a href="{{ route('exercises.edit', $exercise->id) }}">Edit</a></td>
                             @else

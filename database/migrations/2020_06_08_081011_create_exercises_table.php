@@ -18,6 +18,7 @@ class CreateExercisesTable extends Migration
             $table->string('name');
             $table->foreignId('category_id');
             $table->string('image')->nullable();
+            $table->string('image_thumbnail')->nullable();
             $table->timestamps();
         });
     }

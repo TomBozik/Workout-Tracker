@@ -23,6 +23,9 @@
                     @enderror
                 </div>
 
+                @if($exercise->image)
+                    <img src="/storage/{{$exercise->image}}"> 
+                @endif
 
                 <div class="form-group row">
                     <!-- <label for="image" class="col-md-4 col-form-label">Image</label> -->

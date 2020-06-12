@@ -48,15 +48,18 @@ class ExerciseController extends Controller
             'category' => 'required',
             'image' => 'image',
         ]);
+        
 
         $imagePath = request('image')->store('exercises', 'public');
-        $image = Image::make(public_path("storage/{$imagePath}"))->fit(100, 100);
-        $image->save();
+        $thumbnailImagePath = request('image')->store('exercises/thumbnails', 'public');
+        $thumbnailImage = Image::make(public_path("storage/{$thumbnailImagePath}"))->fit(150, 150);
+        $thumbnailImage->save();
 
         $exercise = Exercise::create([
             'name' => $data['name'],
             'category_id' => $data['category'],
-            'image' => $imagePath
+            'image' => $imagePath,
+            'image_thumbnail' => $thumbnailImagePath,
         ]);
 
         return redirect()->route('exercises.index');
@@ -83,11 +86,14 @@ class ExerciseController extends Controller
 
         if(request('image')){
             Storage::disk('public')->delete($exercise->image);
+            Storage::disk('public')->delete($exercise->image_thumbnail);
 
             $imagePath = request('image')->store('exercises', 'public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->fit(100, 100);
-            $image->save();
-            $imageArray = ['image' => $imagePath ];
+            $thumbnailImagePath = request('image')->store('exercises/thumbnails', 'public');
+            $thumbnailImage = Image::make(public_path("storage/{$thumbnailImagePath}"))->fit(150, 150);
+            $thumbnailImage->save();
+
+            $imageArray = ['image' => $imagePath, 'image_thumbnail' => $thumbnailImagePath];
         }
 
         $exercise->update(array_merge(

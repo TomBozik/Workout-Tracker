@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Exercise extends Model
 {
-    protected $fillable = ['name', 'category_id', 'image'];
+    protected $fillable = ['name', 'category_id', 'image', 'image_thumbnail'];
     
     public function category()
     {
