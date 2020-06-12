@@ -48,14 +48,18 @@ class SetController extends Controller
             'exerciseId' => 'required'
         ]);
 
+        $exerciseId = $data['exerciseId'];
+
         $set = Set::create([
             'reps' => $data['reps'],
             'weight' => $data['weight'],
-            'exercise_id' => $data['exerciseId'],
+            'exercise_id' => $exerciseId,
             'user_id' => auth()->user()->id,
         ]);
 
-        return redirect()->back();
+        $previousSets = Set::where('exercise_id', $exerciseId)->orderBy('created_at', 'desc')->limit(50)->get();
+        return response()->json($previousSets);
+        // return redirect()->back();
     }
 
 
