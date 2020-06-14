@@ -1955,13 +1955,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["data", "exercise"],
   data: function data() {
     return {
       reps: "",
       weight: "",
-      sets: this.data
+      sets: this.data,
+      errors: null
     };
   },
   methods: {
@@ -1974,6 +1985,9 @@ __webpack_require__.r(__webpack_exports__);
         'exerciseId': this.exercise.id
       }).then(function (response) {
         _this.sets = response.data;
+      })["catch"](function (e) {
+        _this.errors = e.response.data.errors;
+        console.log(_this.errors);
       });
     }
   }
@@ -37531,6 +37545,29 @@ var render = function() {
           _c("h3", [_vm._v(_vm._s(_vm.exercise.name))])
         ]),
         _vm._v(" "),
+        _vm.errors
+          ? _c(
+              "div",
+              _vm._l(_vm.errors, function(v, k) {
+                return _c(
+                  "div",
+                  { key: k },
+                  _vm._l(v, function(error) {
+                    return _c("p", { key: error }, [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(error) +
+                          "\n                    "
+                      )
+                    ])
+                  }),
+                  0
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("span", [_vm._v("Reps:")]),
           _vm._v(" "),
@@ -37543,6 +37580,7 @@ var render = function() {
                 expression: "reps"
               }
             ],
+            attrs: { required: "" },
             domProps: { value: _vm.reps },
             on: {
               input: function($event) {
@@ -37567,6 +37605,7 @@ var render = function() {
                 expression: "weight"
               }
             ],
+            attrs: { required: "" },
             domProps: { value: _vm.weight },
             on: {
               input: function($event) {
@@ -37585,7 +37624,9 @@ var render = function() {
             { staticClass: "btn btn-primary", on: { click: _vm.createSet } },
             [_vm._v("Create Set")]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c("img", { attrs: { src: "/storage/" + _vm.exercise.image } })
       ])
     ]),
     _vm._v(" "),

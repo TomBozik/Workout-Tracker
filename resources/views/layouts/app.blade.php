@@ -24,6 +24,7 @@
 </head>
 <body>
     <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -44,24 +45,24 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link @if(Request::is('login')) active @endif" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link @if(Request::is('register')) active @endif" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('routines.index') }}">Routines</a>
+                                <a class="nav-link @if(Request::is('routines*', '/')) active @endif" href="{{ route('routines.index') }}">Routines</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('exercises.index') }}">Exercises</a>
+                                <a class="nav-link @if(Request::is('exercises*')) active @endif" href="{{ route('exercises.index') }}">Exercises</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('sets.index') }}">Sets</a>
+                                <a class="nav-link @if(Request::is('sets*')) active @endif" href="{{ route('sets.index') }}">Sets</a>
                             </li>
 
                             <li class="nav-item dropdown">

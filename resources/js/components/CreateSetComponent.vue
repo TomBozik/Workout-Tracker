@@ -7,19 +7,29 @@
                     <h3>{{exercise.name}}</h3>
                 </div>
 
+                <div v-if="errors">
+                    <div v-for="(v, k) in errors" :key="k">
+                        <p v-for="error in v" :key="error">
+                        {{ error }}
+                        </p>
+                    </div>
+                </div>
+
                 <div class="row">
                     <span>Reps:</span>
-                    <input v-model="reps">
+                    <input v-model="reps" required>
                 </div>
 
                 <div class="row">
                     <span>Weight:</span>
-                    <input v-model="weight">
+                    <input v-model="weight" required>
                 </div>
 
                 <div class="row pt-4">
                     <button class="btn btn-primary" @click="createSet">Create Set</button>
                 </div>
+
+                <img :src="'/storage/'+  exercise.image"/>
             
             </div>
         </div>
@@ -54,6 +64,7 @@ export default {
             reps: "",
             weight: "",
             sets: this.data,
+            errors: null,
         };
     },
 
@@ -66,6 +77,10 @@ export default {
                 })
                 .then(response => {
                     this.sets = response.data;
+                })
+                .catch( e => {
+                    this.errors = e.response.data.errors;
+                    console.log(this.errors);
                 });
         }
     },
