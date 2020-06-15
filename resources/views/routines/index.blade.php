@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+{{-- <link href="{{ asset('css/custom.css') }}" rel="stylesheet"> --}}
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -9,38 +13,51 @@
                 <h1>My Routines</h1>
             </div>
 
-            <th><a href="{{ route('routines.create') }}">New Routine</a></th>
+            @foreach($routines as $routine)
+                <div class="row">
+                    <div class="col col-md-12 d-flex justify-content-center justify-content-md-start">
+                        <h4><a href="{{ route('routines.edit', $routine->id) }}" class="pl-3 text-dark"> {{ $routine->name }} </a></h4>
+                    </div>
+                </div>
 
-            <table class="table">
+                @foreach($routine->exercises as $cat => $exercises_list)
+                    <button class="btn btn-outline-primary mb-2 btn-block" 
+                        type="button" 
+                        data-toggle="collapse" 
+                        data-target=".{{ $cat }}-{{ $routine->id }}" 
+                        aria-expanded="false"
+                    > 
+                        {{ $cat }}
+                    </button>
 
-                @foreach($routines as $routine)
-
-                    <tr style="background-color: rgb(32, 214, 41)">
-                        <th>{{ $routine->name }} </th>
-                        <th class="text-right"><a href="{{ route('routines.edit', $routine->id) }}" class="pl-3">Edit</a>
-                        </th>
-                    </tr>
-
-                    @foreach($routine->exercises as $cat => $exercises_list)
-
-                        <tr style="background-color: #F7F7F7" class="header" style="display: table-row;">
-                            <td colspan="2" style="cursor: pointer;"><strong>{{ $cat }} exercises</strong></td>
-                        </tr>
-
+                    <div class="row">
                         @foreach ($exercises_list as $exercise)
-                            <tr style="display:none;">
-                                @if($exercise->image_thumbnail)
-                                    <td> <img src="/storage/{{$exercise->image_thumbnail}}"> <a href="{{ route('sets.create', $exercise->id) }}">{{ $exercise->name }}</a></td>
-                                @else
-                                    <td colspan="2"><a href="{{ route('sets.create', $exercise->id) }}">{{ $exercise->name }}</a> </td>
-                                @endif 
-                            </tr>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="collapse {{ $cat }}-{{ $routine->id }}">
+                                    <div class="card text-center mb-2">
+                                        @if($exercise->image)
+                                            <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}">
+                                        @endif
+                                        <div class="card-block">
+                                            <h4 class="card-title pt-2">{{ $exercise->name }}</h4>
+                                            <p class="card-text">{{ $cat }} <br> {{ $routine->name }}</p>
+                                            <a href="{{ route('sets.create', $exercise->id) }}" class="stretched-link"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
                         @endforeach
-
-                    @endforeach
-
+                    </div>
                 @endforeach
-            </table>
+
+            @endforeach
+
+            <div class="row justify-content-end"> 
+                <div class="col-12 text-right">
+                    {{-- <button type="button" class="btn btn-outline-success">Success</button> --}}
+                    <a href="{{ route('routines.create') }}" class="btn btn-outline-success">New Routine</a> 
+                </div>
+            </div>
 
         </div>
     </div>

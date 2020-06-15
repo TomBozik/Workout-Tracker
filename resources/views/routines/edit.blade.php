@@ -9,11 +9,16 @@
             <div class="d-flex justify-content-between row">
                 <h3>Edit Routine</h3>
 
-                <form action="{{ route('routines.destroy', $routine->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger">Remove Routine</button>
+                <form id="delete_from_{{$routine->id}}" method="POST" action="{{ route('routines.destroy', $routine->id) }}">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <div class="form-group">
+                        <a href="javascript:void(0);" data-id="{{$routine->id}}" class="_delete_data">
+                            <span class="btn btn-danger">Remove Routine</span>
+                        </a>                    
+                    </div>
                 </form>
+
             </div>
 
         </div>
@@ -53,4 +58,28 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('._delete_data').click(function(e){
+            var data_id = $(this).attr('data-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $(document).find('#delete_from_'+data_id).submit();
+                }
+            })
+        });
+    }); 
+</script>
 @endsection

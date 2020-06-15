@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -9,41 +13,48 @@
                 <h1>Exercises</h1>
             </div>
 
-            <table class="table">
-
                 @foreach($exercises as $cat => $exercises_list)
-                
+                    <button class="btn btn-outline-primary mb-2 btn-block" 
+                        type="button" 
+                        data-toggle="collapse" 
+                        data-target=".{{ $cat }}" 
+                        aria-expanded="false"
+                    > 
+                        {{ $cat }}
+                    </button>
 
+                    <div class="row">
+                        @foreach ($exercises_list as $exercise)
+                            <div class="col-md-4 col-sm-6">
+                                <div class="collapse {{ $cat }}">
+                                    <div class="card text-center mb-2">
+                                        @if($exercise->image)
+                                            <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}"> 
+                                        @endif
+                                        <div class="card-block">
+                                            <div class="card-title pt-2"> <strong> {{ $exercise->name }} </strong></div>
+                                            <p class="card-text">{{ $cat }}</p>
 
-                    <tr style="background-color: #F7F7F7" class="header" style="display: table-row;">
-                        <td colspan="2" style="cursor: pointer;"><strong>{{ $cat }} exercises</strong></td>
-                        <td class="text-right">Action</td>
-                    </tr>
+                                            @role('admin')
+                                                <a href="{{ route('exercises.edit', $exercise->id) }}" class="btn btn-outline-primary btn-block">Edit</a>
+                                            @endrole
 
-                    @foreach ($exercises_list as $exercise)
-                        <tr style="display:none;">
-                        
-                            @if($exercise->image_thumbnail)
-                                <td> <img src="/storage/{{$exercise->image_thumbnail}}"> {{ $exercise->name }}</td>
-                            @else
-                                <td>{{ $exercise->name }} </td>
-                            @endif 
-
-                            @role('admin')
-                                <td class="text-right"><a href="{{ route('exercises.edit', $exercise->id) }}">Edit</a></td>
-                            @else
-                                <td class="text-right">-</td>
-                            @endrole
-                        </tr>
-                    @endforeach
-
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        @endforeach
+                    </div>
                 @endforeach
 
                 @role('admin')
-                <tr><a href="{{ route('exercises.create') }}">New Exercise</a></tr>
+                <div class="row justify-content-end"> 
+                    <div class="col-12 text-right">
+                        {{-- <button type="button" class="btn btn-outline-success">Success</button> --}}
+                        <a href="{{ route('exercises.create') }}" class="btn btn-outline-success">New Exercise</a> 
+                    </div>
+                </div>
                 @endrole
-
-            </table>
 
         </div>
     </div>

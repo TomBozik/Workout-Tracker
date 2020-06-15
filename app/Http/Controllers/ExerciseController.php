@@ -90,7 +90,7 @@ class ExerciseController extends Controller
 
             $imagePath = request('image')->store('exercises', 'public');
             $thumbnailImagePath = request('image')->store('exercises/thumbnails', 'public');
-            $thumbnailImage = Image::make(public_path("storage/{$thumbnailImagePath}"))->fit(150, 150);
+            $thumbnailImage = Image::make(public_path("storage/{$thumbnailImagePath}"))->fit(400, 300);
             $thumbnailImage->save();
 
             $imageArray = ['image' => $imagePath, 'image_thumbnail' => $thumbnailImagePath];
