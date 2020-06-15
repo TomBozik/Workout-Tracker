@@ -16,16 +16,16 @@ class UserSeeder extends Seeder
         User::truncate();
 
         $user = User::create([
-            'username' => 'tombozik',
-            'email' => 'tombozik@gmail.com',
-            'password' => Hash::make('password'),
+            'username' => 'User',
+            'email' => 'user@user.com',
+            'password' => Hash::make('user'),
         ]);
         $user->assignRole('user');
 
         $admin = User::create([
             'username' => 'Admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123PassworD123'),
         ]);
         
         $admin->assignRole('admin');

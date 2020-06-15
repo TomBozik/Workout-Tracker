@@ -57,20 +57,33 @@
             </div>
         </div>
 
+        <div class="row justify-content-center pt-5">
+            <div class="col-lg-8 col-sm-12">
+                <chart v-if="loaded" :chartData="chartData"> </chart>
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script>
 import moment from 'moment';
+import SetChart from './SetChart'
+
+
 export default {
     props: ["data", "exercise"],
-
+    components: {
+        'chart': SetChart
+    },
     data() {
         return {
+            loaded:false,
             reps: "",
             weight: "",
             sets: this.data,
             errors: null,
+            chartData: null,
         };
     },
 
@@ -83,12 +96,37 @@ export default {
                 })
                 .then(response => {
                     this.sets = response.data;
+                    this.updateProp();
                 })
                 .catch( e => {
                     this.errors = e.response.data.errors;
-                    console.log(this.errors);
                 });
-        }
+        },
+        // TODO: optimize
+        updateProp(){
+            let newData = [];
+            let newLabels = [];
+
+            newData = this.sets.map(set => set.weight).reverse(); // TODO
+            newLabels = this.sets.map(set => moment(String(set.created_at)).format('DD.MM.YY')).reverse(); // TODO
+
+            this.chartData ={
+                labels: newLabels,
+                datasets: [
+                    {
+                        label: "Weight",
+                        // backgroundColor: "#f87979",
+                        borderColor: "#184cef",
+                        color: "#184cef",
+                        data: newData
+                    }
+                ]
+            };
+            this.loaded = true;
+        },
+    },
+    mounted(){
+        this.updateProp();
     },
 
 };
