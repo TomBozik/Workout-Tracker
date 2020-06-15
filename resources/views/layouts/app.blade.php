@@ -19,7 +19,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href=" https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css" rel="stylesheet">
+     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
@@ -92,6 +93,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer class="footer fixed-bottom d-flex justify-content-center mb-1">
+           <a href="https://github.com/TomBozik/workout-tracker" target="_blank" class="text-dark"> <i class="fa fa-github"> TomBozik</i> </a>
+        </footer>
+
     </div>
 </body>
 </html>
