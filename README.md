@@ -2,7 +2,7 @@
 
 Simple workout tracker
 
-![Project](/docs/gif.gif)
+![Project](/docs/review.gif)
 
 ## Installation
 
