@@ -14,7 +14,7 @@
             </div>
 
             @foreach($routines as $routine)
-                <div class="row">
+                <div class="row pt-5">
                     <div class="col col-md-12 d-flex justify-content-center justify-content-md-start">
                         <h4><a href="{{ route('routines.edit', $routine->id) }}" class="pl-3 text-dark"> {{ $routine->name }} </a></h4>
                     </div>
@@ -29,30 +29,28 @@
                     > 
                         {{ $cat }}
                     </button>
-
-                    <div class="row">
+                        
+                    <div class="row collapse {{ $cat }}-{{ $routine->id }}">
                         @foreach ($exercises_list as $exercise)
-                            <div class="col-md-4 col-sm-6">
-                                <div class="collapse {{ $cat }}-{{ $routine->id }}">
-                                    <div class="card text-center mb-2">
-                                        @if($exercise->image)
-                                            <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}">
-                                        @endif
-                                        <div class="card-block">
-                                            <h4 class="card-title pt-2">{{ $exercise->name }}</h4>
-                                            <p class="card-text">{{ $cat }} <br> {{ $routine->name }}</p>
-                                            <a href="{{ route('sets.create', $exercise->id) }}" class="stretched-link"></a>
-                                        </div>
-                                    </div>
+
+                            <div class="col-md-4 col-sm-6 mb-2">
+                                <div class="card card-body text-center h-100 d-flex flex-column" >
+                                    <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}"> 
+                                    <div class="card-title pt-2"> <strong> {{ $exercise->name }} </strong></div>
+                                    <div class="card-text">{{ $cat }} <br> {{ $routine->name }}</div>
+                                    <a href="{{ route('sets.create', $exercise->id) }}" class="stretched-link"></a>
                                 </div>
                             </div>  
+                            
                         @endforeach
                     </div>
                 @endforeach
 
+
+
             @endforeach
 
-            <div class="row justify-content-end"> 
+            <div class="row justify-content-end pt-3"> 
                 <div class="col-12 text-right">
                     {{-- <button type="button" class="btn btn-outline-success">Success</button> --}}
                     <a href="{{ route('routines.create') }}" class="btn btn-outline-success">New Routine</a> 

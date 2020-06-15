@@ -22,27 +22,22 @@
                     > 
                         {{ $cat }}
                     </button>
-
-                    <div class="row">
+                        
+                    <div class="row collapse {{ $cat }}">
                         @foreach ($exercises_list as $exercise)
-                            <div class="col-md-4 col-sm-6">
-                                <div class="collapse {{ $cat }}">
-                                    <div class="card text-center mb-2">
-                                        @if($exercise->image)
-                                            <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}"> 
-                                        @endif
-                                        <div class="card-block">
-                                            <div class="card-title pt-2"> <strong> {{ $exercise->name }} </strong></div>
-                                            <p class="card-text">{{ $cat }}</p>
 
-                                            @role('admin')
-                                                <a href="{{ route('exercises.edit', $exercise->id) }}" class="btn btn-outline-primary btn-block">Edit</a>
-                                            @endrole
+                            <div class="col-md-4 col-sm-6 mb-2">
+                                <div class="card card-body text-center h-100 d-flex flex-column" >
+                                    <img class="card-img-top" src="/storage/{{$exercise->image_thumbnail}}"> 
+                                    <div class="card-title pt-2"> <strong> {{ $exercise->name }} </strong></div>
+                                    <p class="card-text">{{ $cat }}</p>
 
-                                        </div>
-                                    </div>
+                                    @role('admin') 
+                                    <a href="{{ route('exercises.edit', $exercise->id) }}" class="btn btn-outline-primary btn-block mt-auto">Edit</a>
+                                    @endrole
                                 </div>
                             </div>  
+                            
                         @endforeach
                     </div>
                 @endforeach
@@ -50,7 +45,6 @@
                 @role('admin')
                 <div class="row justify-content-end"> 
                     <div class="col-12 text-right">
-                        {{-- <button type="button" class="btn btn-outline-success">Success</button> --}}
                         <a href="{{ route('exercises.create') }}" class="btn btn-outline-success">New Exercise</a> 
                     </div>
                 </div>
