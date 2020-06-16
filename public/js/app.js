@@ -2005,7 +2005,10 @@ __webpack_require__.r(__webpack_exports__);
         'weight': this.weight,
         'exerciseId': this.exercise.id
       }).then(function (response) {
+        _this.errors = null;
         _this.sets = response.data;
+        _this.reps = "";
+        _this.weight = "";
 
         _this.updateProp();
       })["catch"](function (e) {
@@ -2028,7 +2031,6 @@ __webpack_require__.r(__webpack_exports__);
         labels: newLabels,
         datasets: [{
           label: "Weight",
-          // backgroundColor: "#f87979",
           borderColor: "#184cef",
           color: "#184cef",
           data: newData
@@ -75121,6 +75123,7 @@ var render = function() {
         _vm.errors
           ? _c(
               "div",
+              { staticClass: "alert alert-danger", attrs: { role: "alert" } },
               _vm._l(_vm.errors, function(v, k) {
                 return _c(
                   "div",
@@ -75128,7 +75131,7 @@ var render = function() {
                   _vm._l(v, function(error) {
                     return _c("p", { key: error }, [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(error) +
                           "\n                    "
                       )
@@ -75156,7 +75159,11 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", required: "" },
+                attrs: {
+                  type: "number",
+                  inputmode: "numeric",
+                  pattern: "[0-9]*"
+                },
                 domProps: { value: _vm.reps },
                 on: {
                   input: function($event) {
@@ -75182,7 +75189,11 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", required: "" },
+                attrs: {
+                  type: "number",
+                  inputmode: "numeric",
+                  pattern: "[0-9]*"
+                },
                 domProps: { value: _vm.weight },
                 on: {
                   input: function($event) {
@@ -75202,7 +75213,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-6 col-sm-12" }, [
+          _c("div", { staticClass: "col-lg-6 col-sm-12 pt-2" }, [
             _vm.exercise.image_thumbnail
               ? _c("img", {
                   staticStyle: { "max-width": "100%" },

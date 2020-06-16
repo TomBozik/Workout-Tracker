@@ -9,10 +9,10 @@
                     </div>
                 </div>
 
-                <div v-if="errors">
+                <div v-if="errors" class="alert alert-danger" role="alert">
                     <div v-for="(v, k) in errors" :key="k">
                         <p v-for="error in v" :key="error">
-                        {{ error }}
+                            {{ error }}
                         </p>
                     </div>
                 </div>
@@ -22,16 +22,16 @@
                     <div class="col-lg-6 col-sm-12">
                         <div class="form-group">
                             <label for="reps">Reps</label>
-                            <input type="text" class="form-control" v-model="reps" required>
+                            <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" v-model="reps">
                         </div>
                         <div class="form-group">
                             <label for="weight">Weight</label>
-                            <input type="text" class="form-control" v-model="weight" required>
+                            <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" v-model="weight">
                         </div>
                         <button class="btn btn-primary" @click="createSet">Create Set</button>
                     </div>
 
-                    <div class="col-lg-6 col-sm-12">
+                    <div class="col-lg-6 col-sm-12 pt-2">
                         <img v-if="exercise.image_thumbnail" :src="'/storage/'+  exercise.image" style="max-width:100%;" />
                     </div>
 
@@ -95,7 +95,10 @@ export default {
                 'exerciseId': this.exercise.id,
                 })
                 .then(response => {
+                    this.errors = null;
                     this.sets = response.data;
+                    this.reps = "";
+                    this.weight = "";
                     this.updateProp();
                 })
                 .catch( e => {
@@ -115,7 +118,6 @@ export default {
                 datasets: [
                     {
                         label: "Weight",
-                        // backgroundColor: "#f87979",
                         borderColor: "#184cef",
                         color: "#184cef",
                         data: newData
