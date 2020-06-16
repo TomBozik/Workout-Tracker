@@ -21,6 +21,7 @@ Route::resource('routines', 'RoutineController')->only(['index', 'edit', 'create
 
 Route::resource('sets', 'SetController')->only(['index', 'edit', 'store', 'update', 'destroy']);
 Route::get('/sets/create/{exerciseId}', 'SetController@create')->name('sets.create');
+Route::get('export', 'SetController@export')->name('sets.export');
 
 Route::get('/exercises', 'ExerciseController@index')->name('exercises.index');
 Route::get('/exercises/create', 'ExerciseController@create')->name('exercises.create');
