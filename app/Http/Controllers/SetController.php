@@ -30,9 +30,10 @@ class SetController extends Controller
     public function create($exerciseId)
     {
         $this->authorize('create', Set::class);
+        $authUserId = auth()->user()->id;
 
         $exercise = Exercise::find($exerciseId);
-        $previousSets = Set::where('exercise_id', $exerciseId)->orderBy('created_at', 'desc')->limit(50)->get();
+        $previousSets = Set::where(['exercise_id' => $exerciseId, 'user_id' => $authUserId ])->orderBy('created_at', 'desc')->limit(50)->get();
         
         return view('sets.create', compact('exercise', 'previousSets'));
     }
@@ -41,6 +42,7 @@ class SetController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', Set::class);
+        $authUserId = auth()->user()->id;
 
         $data = request()->validate([
             'reps' => ['required', 'numeric'],
@@ -57,7 +59,7 @@ class SetController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        $previousSets = Set::where('exercise_id', $exerciseId)->orderBy('created_at', 'desc')->limit(50)->get();
+        $previousSets = Set::where(['exercise_id' => $exerciseId, 'user_id' => $authUserId ])->orderBy('created_at', 'desc')->limit(50)->get();
         return response()->json($previousSets);
         // return redirect()->back();
     }
