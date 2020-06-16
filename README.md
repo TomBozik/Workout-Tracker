@@ -2,7 +2,9 @@
 
 Simple workout tracker
 
-![Project](/docs/review.gif)
+![Project](/docs/gif.gif)
+
+Demo: https://tombozik-tracker.herokuapp.com (email: user@user.com, password: user)
 
 ## Installation
 
