@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Set;
 use App\Exercise;
+use App\Exports\SetExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SetController extends Controller
 {
@@ -61,7 +63,6 @@ class SetController extends Controller
 
         $previousSets = Set::where(['exercise_id' => $exerciseId, 'user_id' => $authUserId ])->orderBy('created_at', 'desc')->limit(50)->get();
         return response()->json($previousSets);
-        // return redirect()->back();
     }
 
 
@@ -101,5 +102,11 @@ class SetController extends Controller
         $set->delete($id);
 
         return redirect()->route('sets.index');
+    }
+
+    public function export()
+    {
+        $authUserId = auth()->user()->id;
+        return Excel::download(new SetExport($authUserId), 'sets.csv');
     }
 }

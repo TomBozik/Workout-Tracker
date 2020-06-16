@@ -17,20 +17,25 @@
                     <th class="text-center">Weight</th>
                     <th class="text-center">Action</th>
                 </tr>
-                @foreach ($sets_list as $set)
-                <tr>
-                    <td>{{ $set->exercise->name }}</td>
-                    <td class="text-center">{{ $set->reps }}</td>
-                    <td class="text-center">{{ $set->weight }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('sets.edit', $set->id) }}">Edit</a>
-                    </td>
-
-                </tr>
-                @endforeach
+                    @foreach ($sets_list as $set)
+                        <tr>
+                            <td>{{ $set->exercise->name }}</td>
+                            <td class="text-center">{{ $set->reps }}</td>
+                            <td class="text-center">{{ $set->weight }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('sets.edit', $set->id) }}">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
             </table>
 
+            <div class="row justify-content-end"> 
+                <div class="col-12 text-right">
+                    <a href="{{ route('sets.export') }}" class="btn btn-outline-success">Export</a> 
+                </div>
+            </div>
+                
         </div>
     </div>
 </div>

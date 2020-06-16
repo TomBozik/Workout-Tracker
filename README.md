@@ -45,6 +45,12 @@ You can now access the server at http://localhost:8000
 
 ## DB seeding
 
-Populate the DB with seed data with relationships which includes user, categories, exercises. (email: test@test.com, password: password)
+Populate the DB with seed data with relationships which includes user, categories, exercises. (email: user@user.com, password: user)
 
 `php artisan db:seed`
+
+## Stack
+* bootstrap
+* blade + Vue Components - CreateSetComponent (vue-chartjs)
+* spatie/laravel-permissions
+* maatwebsite/excel
